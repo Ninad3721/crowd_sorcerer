@@ -1,0 +1,145 @@
+{
+  "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_proposedAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "fund",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "retrive",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x073a7660f15554be0d2372128c9fad39523958bacc34aa0df99d3701bcfd6046",
+  "receipt": {
+    "to": null,
+    "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "contractAddress": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    "transactionIndex": 0,
+    "gasUsed": "301936",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xf6a9a9ef05c5b2901699a95ec49b6ad9f2be602b7a35e0ad4d4855f91a98d31f",
+    "transactionHash": "0x073a7660f15554be0d2372128c9fad39523958bacc34aa0df99d3701bcfd6046",
+    "logs": [],
+    "blockNumber": 2,
+    "cumulativeGasUsed": "301936",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "20000000000000000"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "1fecdf571af78546b920beedf543ef74",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_proposedAmount\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"fund\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"retrive\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/tansaction.sol\":\"tansaction\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@chainlink/contracts/src/v0.8/interfaces/AggregatorInterface.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\ninterface AggregatorInterface {\\n  function latestAnswer() external view returns (int256);\\n\\n  function latestTimestamp() external view returns (uint256);\\n\\n  function latestRound() external view returns (uint256);\\n\\n  function getAnswer(uint256 roundId) external view returns (int256);\\n\\n  function getTimestamp(uint256 roundId) external view returns (uint256);\\n\\n  event AnswerUpdated(int256 indexed current, uint256 indexed roundId, uint256 updatedAt);\\n\\n  event NewRound(uint256 indexed roundId, address indexed startedBy, uint256 startedAt);\\n}\\n\",\"keccak256\":\"0xb496651006b9a2a07920ffe116928b11e2a6458e21361cecca51409522488ca7\",\"license\":\"MIT\"},\"@chainlink/contracts/src/v0.8/interfaces/AggregatorV2V3Interface.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\nimport \\\"./AggregatorInterface.sol\\\";\\nimport \\\"./AggregatorV3Interface.sol\\\";\\n\\ninterface AggregatorV2V3Interface is AggregatorInterface, AggregatorV3Interface {}\\n\",\"keccak256\":\"0x4a7757ff7bbafe044cd49c2a45c7c18ec50eff7c7af6869face5e1e9cda976f2\",\"license\":\"MIT\"},\"@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\ninterface AggregatorV3Interface {\\n  function decimals() external view returns (uint8);\\n\\n  function description() external view returns (string memory);\\n\\n  function version() external view returns (uint256);\\n\\n  function getRoundData(uint80 _roundId)\\n    external\\n    view\\n    returns (\\n      uint80 roundId,\\n      int256 answer,\\n      uint256 startedAt,\\n      uint256 updatedAt,\\n      uint80 answeredInRound\\n    );\\n\\n  function latestRoundData()\\n    external\\n    view\\n    returns (\\n      uint80 roundId,\\n      int256 answer,\\n      uint256 startedAt,\\n      uint256 updatedAt,\\n      uint80 answeredInRound\\n    );\\n}\\n\",\"keccak256\":\"0x6e6e4b0835904509406b070ee173b5bc8f677c19421b76be38aea3b1b3d30846\",\"license\":\"MIT\"},\"@chainlink/contracts/src/v0.8/tests/MockV3Aggregator.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.0;\\n\\nimport \\\"../interfaces/AggregatorV2V3Interface.sol\\\";\\n\\n/**\\n * @title MockV3Aggregator\\n * @notice Based on the FluxAggregator contract\\n * @notice Use this contract when you need to test\\n * other contract's ability to read data from an\\n * aggregator contract, but how the aggregator got\\n * its answer is unimportant\\n */\\ncontract MockV3Aggregator is AggregatorV2V3Interface {\\n  uint256 public constant override version = 0;\\n\\n  uint8 public override decimals;\\n  int256 public override latestAnswer;\\n  uint256 public override latestTimestamp;\\n  uint256 public override latestRound;\\n\\n  mapping(uint256 => int256) public override getAnswer;\\n  mapping(uint256 => uint256) public override getTimestamp;\\n  mapping(uint256 => uint256) private getStartedAt;\\n\\n  constructor(uint8 _decimals, int256 _initialAnswer) {\\n    decimals = _decimals;\\n    updateAnswer(_initialAnswer);\\n  }\\n\\n  function updateAnswer(int256 _answer) public {\\n    latestAnswer = _answer;\\n    latestTimestamp = block.timestamp;\\n    latestRound++;\\n    getAnswer[latestRound] = _answer;\\n    getTimestamp[latestRound] = block.timestamp;\\n    getStartedAt[latestRound] = block.timestamp;\\n  }\\n\\n  function updateRoundData(\\n    uint80 _roundId,\\n    int256 _answer,\\n    uint256 _timestamp,\\n    uint256 _startedAt\\n  ) public {\\n    latestRound = _roundId;\\n    latestAnswer = _answer;\\n    latestTimestamp = _timestamp;\\n    getAnswer[latestRound] = _answer;\\n    getTimestamp[latestRound] = _timestamp;\\n    getStartedAt[latestRound] = _startedAt;\\n  }\\n\\n  function getRoundData(uint80 _roundId)\\n    external\\n    view\\n    override\\n    returns (\\n      uint80 roundId,\\n      int256 answer,\\n      uint256 startedAt,\\n      uint256 updatedAt,\\n      uint80 answeredInRound\\n    )\\n  {\\n    return (_roundId, getAnswer[_roundId], getStartedAt[_roundId], getTimestamp[_roundId], _roundId);\\n  }\\n\\n  function latestRoundData()\\n    external\\n    view\\n    override\\n    returns (\\n      uint80 roundId,\\n      int256 answer,\\n      uint256 startedAt,\\n      uint256 updatedAt,\\n      uint80 answeredInRound\\n    )\\n  {\\n    return (\\n      uint80(latestRound),\\n      getAnswer[latestRound],\\n      getStartedAt[latestRound],\\n      getTimestamp[latestRound],\\n      uint80(latestRound)\\n    );\\n  }\\n\\n  function description() external pure override returns (string memory) {\\n    return \\\"v0.8/tests/MockV3Aggregator.sol\\\";\\n  }\\n}\\n\",\"keccak256\":\"0x7a5ac06d48ad507a441c8de5f813765f3beed7fb47aa88b26ad34c020ea0c644\",\"license\":\"MIT\"},\"contracts/tansaction.sol\":{\"content\":\"\\n// SPDX-License-Identifier: MIT\\npragma solidity  ^0.8.0;\\n\\nimport \\\"@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol\\\";\\n\\nimport \\\"@chainlink/contracts/src/v0.8/tests/MockV3Aggregator.sol\\\";\\n\\n\\ncontract tansaction \\n{\\n    //Steps of transaction\\n    // 1.Transferring money from investor to contract\\n    // 2.Mapping the amount and address of investors \\n    // 3.Striking an update when a growth rate is reached\\n    uint256 amt;\\n    address payable  inventor;\\n    // address payable public funder;\\n    mapping (address=>uint256) private s_funderToAmount;\\n    uint256 private balance =0 ;\\n    uint256 private proposedAmount;\\n\\n    \\n    \\nAggregatorV3Interface internal priceFeed;\\n\\n// Constructor to intiate the value of smt and funder's address \\n    constructor(/*uint256 _amt address payable _funder*/  uint256 _proposedAmount /*address payable _inventor*/)\\n    {\\n            // amt =_amt;\\n            // funder = _funder;\\n            proposedAmount = _proposedAmount;\\n            // _inventor = _inventor;\\n             priceFeed = AggregatorV3Interface(\\n            0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e\\n        );\\n    }\\n\\n\\n//  function getLatestPrice() public view returns (int) {\\n//         (,/*uint80 roundID*/ int price /*uint startedAt*/ /*uint timeStamp*/ /*uint80 answeredInRound*/,,,) = priceFeed.latestRoundData();\\n//         return price;\\n//     }\\n\\n// int _price = getLatestPrice()/10e8;\\n\\n    //function to send funds to the contract \\n    function fund() public payable \\n    {\\n        s_funderToAmount[msg.sender] += msg.value;\\n        balance = balance + msg.value; //updating the balance of main acc\\n\\n    }\\n    \\n    \\n    // function to retrive the donated amount \\n    function retrive() public payable \\n    {\\n        //require condition to check if the withdrawer has funded any amount or not \\n        if(s_funderToAmount[msg.sender] != 0 )\\n        {\\n        (bool sent, bytes memory data) = msg.sender.call{value: s_funderToAmount[msg.sender]}(\\\"\\\");\\n        require(sent, \\\"Failed to send Ether\\\");\\n        delete s_funderToAmount[msg.sender];\\n        }\\n    \\n            }\\n    \\n    \\n\\n        // function firstTransaction() public payable\\n        // {\\n        //     if(address(this).balance> proposedAmount)\\n        //     {\\n        //         (bool sent, bytes memory data) = inventor.call{value: (address(this).balance)/2}(\\\"\\\");\\n        // require(sent, \\\"Failed to send Ether\\\");\\n        //     }\\n        // } \\n    \\n    //getter function\\n    function getBalance() private view returns (uint256){\\n            return balance ;\\n            \\n    }\\n\\n// function getAmountDepositedinUsd() private view returns (int)\\n// {\\n//     return int(amt)*_price;\\n// }   \\n    \\n}\",\"keccak256\":\"0xac814a1a4bce1008254e27a79f70295cf8271a16a808e9df9217880686ecc317\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x6080604052600060035534801561001557600080fd5b506040516104a13803806104a1833981810160405281019061003791906100ae565b8060048190555073d4a33860578de61dbabdc8bfdb98fd742fa7028e600560006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550506100f8565b6000815190506100a8816100e1565b92915050565b6000602082840312156100c057600080fd5b60006100ce84828501610099565b91505092915050565b6000819050919050565b6100ea816100d7565b81146100f557600080fd5b50565b61039a806101076000396000f3fe6080604052600436106100295760003560e01c8063a6b7fc5b1461002e578063b60d428814610038575b600080fd5b610036610042565b005b6100406101be565b005b6000600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054146101bc576000803373ffffffffffffffffffffffffffffffffffffffff16600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020546040516100ef90610284565b60006040518083038185875af1925050503d806000811461012c576040519150601f19603f3d011682016040523d82523d6000602084013e610131565b606091505b509150915081610176576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040161016d90610299565b60405180910390fd5b600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000905550505b565b34600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825461020d91906102d5565b925050819055503460035461022291906102d5565b600381905550565b60006102376014836102c4565b91507f4661696c656420746f2073656e642045746865720000000000000000000000006000830152602082019050919050565b60006102776000836102b9565b9150600082019050919050565b600061028f8261026a565b9150819050919050565b600060208201905081810360008301526102b28161022a565b9050919050565b600081905092915050565b600082825260208201905092915050565b60006102e08261032b565b91506102eb8361032b565b9250827fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff038211156103205761031f610335565b5b828201905092915050565b6000819050919050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052601160045260246000fdfea2646970667358221220159fc8e2268b58edce006b035a276746e34d91291a45fc3439cbf61b6fe2ab0764736f6c63430008000033",
+  "deployedBytecode": "0x6080604052600436106100295760003560e01c8063a6b7fc5b1461002e578063b60d428814610038575b600080fd5b610036610042565b005b6100406101be565b005b6000600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002054146101bc576000803373ffffffffffffffffffffffffffffffffffffffff16600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020546040516100ef90610284565b60006040518083038185875af1925050503d806000811461012c576040519150601f19603f3d011682016040523d82523d6000602084013e610131565b606091505b509150915081610176576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040161016d90610299565b60405180910390fd5b600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000905550505b565b34600260003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825461020d91906102d5565b925050819055503460035461022291906102d5565b600381905550565b60006102376014836102c4565b91507f4661696c656420746f2073656e642045746865720000000000000000000000006000830152602082019050919050565b60006102776000836102b9565b9150600082019050919050565b600061028f8261026a565b9150819050919050565b600060208201905081810360008301526102b28161022a565b9050919050565b600081905092915050565b600082825260208201905092915050565b60006102e08261032b565b91506102eb8361032b565b9250827fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff038211156103205761031f610335565b5b828201905092915050565b6000819050919050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052601160045260246000fdfea2646970667358221220159fc8e2268b58edce006b035a276746e34d91291a45fc3439cbf61b6fe2ab0764736f6c63430008000033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 314,
+        "contract": "contracts/tansaction.sol:tansaction",
+        "label": "amt",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 316,
+        "contract": "contracts/tansaction.sol:tansaction",
+        "label": "inventor",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_address_payable"
+      },
+      {
+        "astId": 320,
+        "contract": "contracts/tansaction.sol:tansaction",
+        "label": "s_funderToAmount",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_address,t_uint256)"
+      },
+      {
+        "astId": 323,
+        "contract": "contracts/tansaction.sol:tansaction",
+        "label": "balance",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 325,
+        "contract": "contracts/tansaction.sol:tansaction",
+        "label": "proposedAmount",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 328,
+        "contract": "contracts/tansaction.sol:tansaction",
+        "label": "priceFeed",
+        "offset": 0,
+        "slot": "5",
+        "type": "t_contract(AggregatorV3Interface)102"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_address_payable": {
+        "encoding": "inplace",
+        "label": "address payable",
+        "numberOfBytes": "20"
+      },
+      "t_contract(AggregatorV3Interface)102": {
+        "encoding": "inplace",
+        "label": "contract AggregatorV3Interface",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_address,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}

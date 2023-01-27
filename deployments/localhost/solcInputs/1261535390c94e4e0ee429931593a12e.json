@@ -1,0 +1,50 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "@chainlink/contracts/src/v0.8/interfaces/AggregatorInterface.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ninterface AggregatorInterface {\n  function latestAnswer() external view returns (int256);\n\n  function latestTimestamp() external view returns (uint256);\n\n  function latestRound() external view returns (uint256);\n\n  function getAnswer(uint256 roundId) external view returns (int256);\n\n  function getTimestamp(uint256 roundId) external view returns (uint256);\n\n  event AnswerUpdated(int256 indexed current, uint256 indexed roundId, uint256 updatedAt);\n\n  event NewRound(uint256 indexed roundId, address indexed startedBy, uint256 startedAt);\n}\n"
+    },
+    "@chainlink/contracts/src/v0.8/interfaces/AggregatorV2V3Interface.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\nimport \"./AggregatorInterface.sol\";\nimport \"./AggregatorV3Interface.sol\";\n\ninterface AggregatorV2V3Interface is AggregatorInterface, AggregatorV3Interface {}\n"
+    },
+    "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ninterface AggregatorV3Interface {\n  function decimals() external view returns (uint8);\n\n  function description() external view returns (string memory);\n\n  function version() external view returns (uint256);\n\n  function getRoundData(uint80 _roundId)\n    external\n    view\n    returns (\n      uint80 roundId,\n      int256 answer,\n      uint256 startedAt,\n      uint256 updatedAt,\n      uint80 answeredInRound\n    );\n\n  function latestRoundData()\n    external\n    view\n    returns (\n      uint80 roundId,\n      int256 answer,\n      uint256 startedAt,\n      uint256 updatedAt,\n      uint80 answeredInRound\n    );\n}\n"
+    },
+    "@chainlink/contracts/src/v0.8/tests/MockV3Aggregator.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\nimport \"../interfaces/AggregatorV2V3Interface.sol\";\n\n/**\n * @title MockV3Aggregator\n * @notice Based on the FluxAggregator contract\n * @notice Use this contract when you need to test\n * other contract's ability to read data from an\n * aggregator contract, but how the aggregator got\n * its answer is unimportant\n */\ncontract MockV3Aggregator is AggregatorV2V3Interface {\n  uint256 public constant override version = 0;\n\n  uint8 public override decimals;\n  int256 public override latestAnswer;\n  uint256 public override latestTimestamp;\n  uint256 public override latestRound;\n\n  mapping(uint256 => int256) public override getAnswer;\n  mapping(uint256 => uint256) public override getTimestamp;\n  mapping(uint256 => uint256) private getStartedAt;\n\n  constructor(uint8 _decimals, int256 _initialAnswer) {\n    decimals = _decimals;\n    updateAnswer(_initialAnswer);\n  }\n\n  function updateAnswer(int256 _answer) public {\n    latestAnswer = _answer;\n    latestTimestamp = block.timestamp;\n    latestRound++;\n    getAnswer[latestRound] = _answer;\n    getTimestamp[latestRound] = block.timestamp;\n    getStartedAt[latestRound] = block.timestamp;\n  }\n\n  function updateRoundData(\n    uint80 _roundId,\n    int256 _answer,\n    uint256 _timestamp,\n    uint256 _startedAt\n  ) public {\n    latestRound = _roundId;\n    latestAnswer = _answer;\n    latestTimestamp = _timestamp;\n    getAnswer[latestRound] = _answer;\n    getTimestamp[latestRound] = _timestamp;\n    getStartedAt[latestRound] = _startedAt;\n  }\n\n  function getRoundData(uint80 _roundId)\n    external\n    view\n    override\n    returns (\n      uint80 roundId,\n      int256 answer,\n      uint256 startedAt,\n      uint256 updatedAt,\n      uint80 answeredInRound\n    )\n  {\n    return (_roundId, getAnswer[_roundId], getStartedAt[_roundId], getTimestamp[_roundId], _roundId);\n  }\n\n  function latestRoundData()\n    external\n    view\n    override\n    returns (\n      uint80 roundId,\n      int256 answer,\n      uint256 startedAt,\n      uint256 updatedAt,\n      uint80 answeredInRound\n    )\n  {\n    return (\n      uint80(latestRound),\n      getAnswer[latestRound],\n      getStartedAt[latestRound],\n      getTimestamp[latestRound],\n      uint80(latestRound)\n    );\n  }\n\n  function description() external pure override returns (string memory) {\n    return \"v0.8/tests/MockV3Aggregator.sol\";\n  }\n}\n"
+    },
+    "contracts/AutomationCompatible.sol": {
+      "content": ""
+    },
+    "contracts/tansaction.sol": {
+      "content": "\n// SPDX-License-Identifier: MIT\npragma solidity  ^0.8.0;\n\nimport \"@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol\";\n\nimport \"@chainlink/contracts/src/v0.8/tests/MockV3Aggregator.sol\";\n\n\ncontract tansaction \n{\n    //Steps of transaction\n    // 1.Transferring money from investor to contract\n    // 2.Mapping the amount and address of investors \n    // 3.Striking an update when a growth rate is reached\n    uint256 amt;\n    address payable  inventor;\n    // address payable public funder;\n    mapping (address=>uint256) private s_funderToAmount;\n    uint256 private balance =0 ;\n    uint256 private proposedAmount;\n\n    \n    \nAggregatorV3Interface internal priceFeed;\n\n// Constructor to intiate the value of smt and funder's address \n    constructor(uint256 _amt /*address payable _funder*/ , uint256 _proposedAmount, address payable _inventor)\n    {\n            amt =_amt;\n            // funder = _funder;\n            proposedAmount = _proposedAmount;\n            _inventor = _inventor;\n             priceFeed = AggregatorV3Interface(\n            0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e\n        );\n    }\n\n\n//  function getLatestPrice() public view returns (int) {\n//         (,/*uint80 roundID*/ int price /*uint startedAt*/ /*uint timeStamp*/ /*uint80 answeredInRound*/,,,) = priceFeed.latestRoundData();\n//         return price;\n//     }\n\n// int _price = getLatestPrice()/10e8;\n\n    //function to send funds to the contract \n    function fund() public payable \n    {\n        s_funderToAmount[msg.sender] += msg.value;\n        balance = balance + msg.value; //updating the balance of main acc\n\n    }\n    \n    \n    // function to retrive the donated amount \n    function retrive() public payable \n    {\n        //require condition to check if the withdrawer has funded any amount or not \n        if(s_funderToAmount[msg.sender] != 0 )\n        {\n        (bool sent, bytes memory data) = msg.sender.call{value: s_funderToAmount[msg.sender]}(\"\");\n        require(sent, \"Failed to send Ether\");\n        delete s_funderToAmount[msg.sender];\n        }\n    \n            }\n    \n    \n\n        function firstTransaction() public payable\n        {\n            if(address(this).balance> proposedAmount)\n            {\n                (bool sent, bytes memory data) = inventor.call{value: (address(this).balance)/2}(\"\");\n        require(sent, \"Failed to send Ether\");\n            }\n        } \n    \n    //getter function\n    function getBalance() private view returns (uint256){\n            return balance ;\n            \n    }\n\n// function getAmountDepositedinUsd() private view returns (int)\n// {\n//     return int(amt)*_price;\n// }   \n    \n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
