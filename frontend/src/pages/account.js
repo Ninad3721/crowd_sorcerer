@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
+import Avatar from './Avatar'
+import AddProject from './AddProject'
+import Link from 'next/link'
+
 
 export default function Account({ session }) {
   const supabase = useSupabaseClient()
@@ -8,6 +12,7 @@ export default function Account({ session }) {
   const [username, setUsername] = useState(null)
   const [website, setWebsite] = useState(null)
   const [avatar_url, setAvatarUrl] = useState(null)
+
 
   useEffect(() => {
     getProfile()
@@ -40,6 +45,7 @@ export default function Account({ session }) {
     }
   }
 
+
   async function updateProfile({ username, website, avatar_url }) {
     try {
       setLoading(true)
@@ -64,6 +70,21 @@ export default function Account({ session }) {
   }
 
   return (
+    <>
+
+     <div className="form-widget">
+       {/* Add to the body */}
+    <Avatar
+      uid={user.id}
+      url={avatar_url}
+      size={150}
+      onUpload={(url) => {
+        setAvatarUrl(url)
+        updateProfile({ username, website, avatar_url: url })
+      }}
+    />
+    {/* ... */}
+      </div>
     <div className="form-widget">
       <div>
         <label htmlFor="email">Email</label>
@@ -92,6 +113,7 @@ export default function Account({ session }) {
         <button
           className="button primary block"
           onClick={() => updateProfile({ username, website, avatar_url })}
+          
           disabled={loading}
         >
           {loading ? 'Loading ...' : 'Update'}
@@ -102,8 +124,11 @@ export default function Account({ session }) {
         <button className="button block" onClick={() => supabase.auth.signOut()}>
           Sign Out
         </button>
+          <AddProject session={session}/>
       </div>
     </div>
+    </>
+   
   )
 }
 

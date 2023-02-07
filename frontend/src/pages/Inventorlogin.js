@@ -20,6 +20,7 @@ export default function InventorLogin()
           <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
         ) : (
           <Account session={session}/>
+
         )}
       </div>
     )
