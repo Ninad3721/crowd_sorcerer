@@ -5,6 +5,7 @@ import AddProject from './AddProject'
 import Link from 'next/link'
 
 
+
 export default function Account({ session }) {
   const supabase = useSupabaseClient()
   const user = useUser()
@@ -124,11 +125,27 @@ export default function Account({ session }) {
         <button className="button block" onClick={() => supabase.auth.signOut()}>
           Sign Out
         </button>
-          <AddProject session={session}/>
+        <Link  href={{
+            pathname: "/AddProject",
+            query: session.user, // the data
+          }}>
+        Add Project
+        </Link>
+    
+  
       </div>
     </div>
     </>
    
   )
+}
+
+export  const getServerSideProps= (session)=> {
+ 
+  return {
+      props: { 
+         _session : session//pass it to the page props
+      }
+  }
 }
 
