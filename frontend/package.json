@@ -15,6 +15,7 @@
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.6",
     "@next/font": "13.1.5",
+    "@rainbow-me/rainbowkit": "^0.12.2",
     "@supabase/auth-helpers-nextjs": "^0.5.4",
     "@supabase/auth-helpers-react": "^0.3.1",
     "@supabase/auth-ui-react": "^0.2.6",
@@ -32,6 +33,7 @@
     "next-auth": "^4.19.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "wagmi": "^0.12.3",
     "web3uikit": "^1.0.4"
   }
 }
