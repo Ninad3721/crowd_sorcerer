@@ -23,22 +23,25 @@ contract tansaction
     // 2.Mapping the amount and address of investors 
     // 3.Striking an update when a growth rate is reached
     uint256 amt;
-    address payable  inventor;
+    address payable inventor;
     mapping (address=>uint256) private s_funderToAmount;
     uint256 private balance =0 ;
     uint256 private proposedAmount;
     mapping (address  => uint256) s_inventorToProposedAmount;
+    mapping( address => address) s_FunderToInventor;
+
 
 
 // Constructor to intiate the value of smt and funder's address 
-    constructor(/*uint256 _amt address payable _funder*/  uint256 _proposedAmount ,address payable _inventor)
-    {
-            // amt =_amt;
-            // funder = _funder;
-            proposedAmount = _proposedAmount;
-             _inventor = _inventor;
+    // constructor(/*uint256 _amt address payable _funder*/  uint256 _proposedAmount ,address payable _inventor)
+    // {
+    //         amt =_amt;
+    //         funder = _funder;
+    //         proposedAmount = _proposedAmount ;
+    //          _inventor = _inventor;
  
-    }
+    // }
+
     
     // function to list the project
     function listTheProject (uint256 _proposedAmount) external 
@@ -50,42 +53,43 @@ contract tansaction
 
 
     //function to send funds to the contract 
-    function fund() public payable 
+    function fund(address _inventor) public payable 
     {
         if(msg.value <= 0)
         {
             revert Transaction_ZeroFundingError();
         }
-        s_funderToAmount[msg.sender] += msg.value;
-        balance = balance + msg.value; //updating the balance of main acc
+        s_funderToAmount[msg.sender] += msg.value ;
+        balance = balance + msg.value; //updating the balance of contract acc
+        (bool sent, bytes memory data) = address(this).call{gas :2300, value: msg.value}("func_signature(uint256 args)");
         emit fundingComplete(msg.value, msg.sender);
-
 
     }
     
     
     // function to retrive the donated amount 
-    function retrive() public payable 
+    function Fullretrive() external 
     {
         //require condition to check if the withdrawer has funded any amount or not 
         if(s_funderToAmount[msg.sender] == 0 )
         {
             revert Transaction_FunderNotPresent();
         }
-        delete s_funderToAmount[msg.sender];
         (bool sent, ) = msg.sender.call{value: s_funderToAmount[msg.sender]}("");
         require(sent, "Failed to send Ether");
-        emit Fund_Withdraw(msg.value, msg.sender);
+        delete s_funderToAmount[msg.sender];
+     
+        // emit Fund_Withdraw(msg.value, msg.sender);
         
     }
     
     
     //fucntion 
-        function firstTransaction() public payable
+        function firstTransaction() external
         {
             if(address(this).balance > proposedAmount)
             {
-        (bool sent,) = inventor.call{value: (address(this).balance)/2}("");
+        (bool sent,) = inventor.call{value: s_inventorToProposedAmount[msg.sender]/2}("");
         require(sent, "Failed to send Ether");
         emit firstTransaction_Complete();
             }
@@ -96,13 +100,12 @@ contract tansaction
     
     //getter function
     function getBalance() public view returns (uint256){
-            return address(this).balance;
+            return address(this).balance ;
             
     }
 
-// function getAmountDepositedinUsd() private view returns (int)
-// {
-//     return int(amt)*_price;
-// }   
-    
+    function getAmountFunded() public view returns (uint256)
+    {
+        return s_funderToAmount[msg.sender] ;
+    }
 }

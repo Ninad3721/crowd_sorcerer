@@ -8,11 +8,12 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import Funder_account from './Funder_account'
 import ProjectCard from '@/components/ProjectCard'
 import { useEffect, useState } from 'react'
-import { ConnectButton } from 'web3uikit'
+import { ConnectButton } from 'web3uikit';
 
 
 
 export default function FunderLogin() {
+
   const [cardData, setCardData] = useState([])
   const session = useSession()
   const supabase = useSupabaseClient()

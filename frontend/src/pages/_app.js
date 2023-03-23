@@ -11,6 +11,10 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
+import { InjectedConnector } from 'wagmi/connectors/injected'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
+import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 require('dotenv').config()
 
 
@@ -21,7 +25,7 @@ export default function App({ Component, pageProps }) {
     supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdkbHRxYmhncWNyaXB5bWZlbnFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzQ2NTM0NTQsImV4cCI6MTk5MDIyOTQ1NH0.B5MgOAVsQfDKVA40F9J3-_Pgl9XTtr6kj6yW-A-txBY"
   }))
 
-  const { chains, provider } = configureChains(
+  const { chains, provider, webSocketProvider } = configureChains(
     [mainnet, polygon, optimism, arbitrum],
     [
       alchemyProvider({ apiKey: "oqeOc94obCxkJEpe3KNrK3MzHE6Y3pmy" }),
@@ -37,7 +41,8 @@ export default function App({ Component, pageProps }) {
   const wagmiClient = createClient({
     autoConnect: true,
     connectors,
-    provider
+    provider,
+
   })
 
   return (
