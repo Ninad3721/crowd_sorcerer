@@ -19,7 +19,7 @@ export default function FunderLogin() {
   const supabase = useSupabaseClient()
   const getData = async () => {
     const { data, error } = await supabase
-      .from('Projects')
+      .from('project_profile')
       .select()
     setCardData(data)
   }
@@ -42,8 +42,6 @@ export default function FunderLogin() {
               cardData.map(() => {
                 return <ProjectCard />
               })
-
-
             }
           </>
         )}

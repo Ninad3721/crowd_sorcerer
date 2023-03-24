@@ -12,20 +12,22 @@ import { red } from '@mui/material/colors';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
-
+import { ethers } from 'ethers';
 
 export default function ProjectCard(props) {
     const { isConnected } = useAccount()
     const [expanded, setExpanded] = React.useState(false);
+    const [funding, setFuding] = React.useState("")
 
-    const handleDonate = () => {
-        if (isConnected) {
-            window.alert('Connect to Metamask')
+    const handleDonate = async () => {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const account = await window.ethereum.request({ method: 'eth_requestAccounts' })
+        const signer = provider.getSigner();
+        if (funding == "") {
+            window.alert("Please enter funding value")
+        }
 
-        }
-        else {
-            console.log("Hello")
-        }
+
     }
 
     return (
@@ -65,6 +67,7 @@ export default function ProjectCard(props) {
                         <div className="progress-bar" role="progressbar" style={{ width: "50%" }} aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </IconButton>
+                <input type="number" onSubmit={(e) => { setFuding(e.target.value) }}></input>
             </CardActions>
 
         </Card>
