@@ -22,7 +22,9 @@ export default function FunderLogin() {
       .from('project_profile')
       .select()
     setCardData(data)
+
   }
+
 
   const load = useEffect(() => {
     getData()
@@ -39,8 +41,8 @@ export default function FunderLogin() {
           <>
             <Funder_account session={session} />
             {
-              cardData.map(() => {
-                return <ProjectCard />
+              cardData.map((current) => {
+                return <ProjectCard address={current.address} description={current.project_description} name={current.project_name} timeStamp={current.created_at} progress={current.progress} full_value_eligible={current.full_value_eligible} />
               })
             }
           </>
