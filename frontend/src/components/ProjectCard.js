@@ -39,7 +39,13 @@ export default function ProjectCard(props) {
                 amt_funded: funding,
             })
 
+            const { data2, error2 } = await supabase
+                .from('project_profile')
+                .update({ numberOfFunder: props.numberOfFunder + 1, fundCollected: props.fundCollected + funding })
+                .match({ project_id: props.project_id });
+
             console.log(error)
+            console.log(error2)
 
         }
         if (funding == 0) {

@@ -42,7 +42,7 @@ export default function FunderLogin() {
             <Funder_account session={session} />
             {
               cardData.map((current) => {
-                return <ProjectCard address={current.address} description={current.project_description} name={current.project_name} timeStamp={current.created_at} progress={current.progress} full_value_eligible={current.full_value_eligible} project_id={current.project_id} />
+                return <ProjectCard address={current.address} description={current.project_description} name={current.project_name} timeStamp={current.created_at} progress={current.progress} full_refund_eligible={current.full_value_eligible} project_id={current.project_id} fundCollected={current.fundCollected} numberOfFunder={current.numberOfFunder} />
               })
             }
           </>
