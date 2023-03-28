@@ -26,28 +26,43 @@ export default function ProjectCard(props) {
     const { isConnected } = useAccount()
     const [expanded, setExpanded] = React.useState(false);
     const [funding, setFuding] = React.useState(0)
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    const signer = provider.getSigner();
+
+    const fetchLatestData = async () => {
+        const { data, error } = await supabase.from("project_profile").select('*').eq('project_id', props.project_id)
+        console.log(data[0].project_id)
+        return data[0];
+    }
+
+    const UpdateFunder = async () => {
+        const readData = await fetchLatestData();
+        const { data, error } = await supabase
+            .from('project_profile')
+            .update({ numberOfFunder: Number(readData.numberOfFunder) + 1, fundCollected: Number(readData.fundCollected) + Number(funding) })
+            .match({ project_id: readData.project_id });
+
+        console.log(error)
+        console.log(Number(props.fundCollected) + Number(funding))
+
+    }
+
+    const insertFunder = async () => {
+        const account = await provider.send("eth_requestAccounts", [])
+        const { data, error } = await supabase.from("funderToProject").insert({
+            funder_address: account[0],
+            project_id: props.project_id,
+            amt_funded: funding,
+        })
+        console.log("hello")
+        console.log(error)
+
+    }
 
     const handleDonate = async () => {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const account = await provider.send("eth_requestAccounts", [])
-        console.log(account[0])
-        const signer = provider.getSigner();
-        const insertFunder = async () => {
-            const { data, error } = await supabase.from("funderToProject").insert({
-                funder_address: account[0],
-                project_id: props.project_id,
-                amt_funded: funding,
-            })
 
-            const { data2, error2 } = await supabase
-                .from('project_profile')
-                .update({ numberOfFunder: props.numberOfFunder + 1, fundCollected: props.fundCollected + funding })
-                .match({ project_id: props.project_id });
 
-            console.log(error)
-            console.log(error2)
-
-        }
         if (funding == 0) {
             window.alert("Please enter funding value")
         }
@@ -55,17 +70,14 @@ export default function ProjectCard(props) {
         const options = {
             value: ethers.utils.parseEther(funding.toString())
         }
-        const fund = await transaction_contract.fund("0x4C6C922a1044Bb6840B926BBD461A1DCff40bd1B", options).then(() => {
-            window.alert("Transaction Succesful")
-            try {
-                insertFunder()
-            }
-            catch {
-                console.log(e)
-            }
-        })
-
+        const fund = await transaction_contract.fund("0x4C6C922a1044Bb6840B926BBD461A1DCff40bd1B", options)
+        window.alert("Transaction Succesful")
+        console.log("hola")
+        await insertFunder()
+        await UpdateFunder()
     }
+
+
 
     return (
         <>
