@@ -14,9 +14,18 @@ export default function InventorLogin() {
   return (
 
     <div className="container" style={{ padding: '50px 0 100px 0' }}>
-      <p>Inventor Login</p>
+      <p className={styles.title}>Inventor Login</p>
       {!session ? (
-        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
+        <Auth supabaseClient={supabase} 
+        appearance={{
+          style: {
+            input: { background: '#eeeee1',textAlign: 'center', color: '#12421f',fontFamily: 'monospace',border: '1px solid #12421f',width: '400px',padding:'10px',borderRadius: '10px' },
+            label: { color: '#12421f',fontFamily: 'fantasy' },
+            button: { background: '#12421f', color: '#eeeee1',fontFamily: 'monospace',border: '1px solid #12421f',width: '400px',marginLeft:'16.5%',padding:'10px',borderRadius: '10px' },
+            //..
+          },
+        }}
+        />
       ) : (
         <Inventor_account session={session} />
 

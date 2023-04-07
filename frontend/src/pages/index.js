@@ -12,7 +12,7 @@ import Lander from "./lander"
 const Home = () => {
 
   return (
-    <Lander />
+      <Lander />
   )
 
 

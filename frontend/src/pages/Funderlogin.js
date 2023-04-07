@@ -32,11 +32,18 @@ export default function FunderLogin() {
 
   return (
     <>
-      <ConnectButton />
-      <div className="container" style={{ padding: '50px 0 100px 0' }}>
-        <p>Funder Login</p>
+      <ConnectButton className={styles.ConnectButton}/>
+      <div className= {styles.container} style={{ padding: '50px 0 100px 0' }}>
+        <p className={styles.title}>Funder Login</p>
         {!session ? (
-          <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
+          <Auth supabaseClient={supabase}   appearance={{
+            style: {
+              input: { background: '#eeeee1',textAlign: 'center', color: '#12421f',fontFamily: 'monospace',border: '1px solid #12421f',width: '400px',padding: '10px',borderRadius: '10px' },
+              label: { color: '#12421f' ,fontFamily: 'fantasy'},
+              button: { background: '#12421f', color: '#eeeee1',fontFamily: 'monospace',border: '1px solid #12421f',width: '400px',marginLeft:'16.5%',padding: '10px' ,borderRadius:'10px'},
+            },
+          }}
+          />
         ) : (
           <>
             <Funder_account session={session} />

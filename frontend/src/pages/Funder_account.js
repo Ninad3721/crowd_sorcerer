@@ -3,6 +3,7 @@ import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
 import Avatar from './Avatar'
 import AddProject from './AddProject'
 import Link from 'next/link'
+import styles from '@/styles/Home.module.css'
 
 
 
@@ -71,7 +72,7 @@ export default function Account({ session }) {
     }
 
     return (
-        <>
+        <div className={styles.block}>
 
             <div className="form-widget">
                 {/* Add to the body */}
@@ -86,24 +87,26 @@ export default function Account({ session }) {
                 />
                 {/* ... */}
             </div>
-            <div className="form-widget">
+            <div className={styles.form_widget}>
                 <div>
-                    <label htmlFor="email">Email</label>
-                    <input id="email" type="text" value={session.user.email} disabled />
+                    <label htmlFor="email" className={styles.in}>Email</label>
+                    <input className={styles.out} id="email" type="text" value={session.user.email} disabled />
                 </div>
                 <div>
-                    <label htmlFor="username">Username</label>
+                    <label className={styles.in} htmlFor="username">Username</label>
                     <input
                         id="username"
                         type="text"
+                        className={styles.out}
                         value={username || ''}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
                 <div>
-                    <label htmlFor="website">Website</label>
+                    <label className={styles.in} htmlFor="website">Website</label>
                     <input
                         id="website"
+                        className={styles.out}
                         type="website"
                         value={website || ''}
                         onChange={(e) => setWebsite(e.target.value)}
@@ -112,7 +115,7 @@ export default function Account({ session }) {
 
                 <div>
                     <button
-                        className="button primary block"
+                        className={styles.but}
                         onClick={() => updateProfile({ username, website, avatar_url })}
 
                         disabled={loading}
@@ -122,7 +125,7 @@ export default function Account({ session }) {
                 </div>
 
                 <div>
-                    <button className="button block" onClick={() => supabase.auth.signOut()}>
+                    <button className={styles.but} onClick={() => supabase.auth.signOut()}>
                         Sign Out
                     </button>
 
@@ -130,7 +133,7 @@ export default function Account({ session }) {
 
                 </div>
             </div>
-        </>
+        </div>
 
     )
 }
